@@ -1,4 +1,5 @@
 import cv2 as cv
+import os
 
 img = cv.imread('lena-1.png')
 assert img is not None, "file could not be read"
@@ -16,8 +17,15 @@ width = int(cam.get(cv.CAP_PROP_FRAME_WIDTH))
 height = int(cam.get(cv.CAP_PROP_FRAME_HEIGHT))
 
 file_name = "camera_outputs.txt"
+directory = "solutions"
+os.makedirs(directory, exist_ok=True)
+file_path = os.path.join(directory, "camera_outputs.txt")
 
-write_fps = "FPS: ", fps
-write_width = "Width: ", width
-write_height = "Height: ", height
+with open(file_path, "w") as f:
+    f.write(f"FPS: {fps}\n")
+    f.write(f"Width: {width}\n")
+    f.write(f"Height: {height}\n")
+
+print(f"Camera properties written to {file_name}")
+
 
