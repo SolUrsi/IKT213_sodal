@@ -26,6 +26,5 @@ with open(file_path, "w") as f:
     f.write(f"Width: {width}\n")
     f.write(f"Height: {height}\n")
 
-print(f"Camera properties written to {file_name}")
 
 
