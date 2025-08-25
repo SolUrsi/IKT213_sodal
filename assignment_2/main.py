@@ -42,6 +42,7 @@ def hsv(image):
     return cv.cvtColor(image, cv.COLOR_BGR2HSV)
 
 
+# Hue shifting
 def hue_shifted(image, emptyPictureArray, hue):
     for i in range(image.shape[0]):
         for j in range(image.shape[1]):
@@ -51,10 +52,12 @@ def hue_shifted(image, emptyPictureArray, hue):
     return emptyPictureArray
 
 
+# Smoothing
 def smoothing(image):
     return cv.GaussianBlur(image, (15,15), cv.BORDER_DEFAULT)
 
 
+# Rotation
 def rotation(image, rotation_angle):
     if rotation_angle == 90:
         return cv.rotate(image, cv.ROTATE_90_CLOCKWISE)
