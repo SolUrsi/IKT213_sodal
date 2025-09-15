@@ -47,6 +47,12 @@ def template_match(image, template):
 # Resizing
 def resize(image, scale_factor: int, up_or_down: str):
     
+
+    if up_or_down == "up":
+
+    elif up_or_down == "down":
+
+
     cv.imwrite(os.path.join(OUTPUT_DIR, 'resize.png'), resized)
     return resized
 
