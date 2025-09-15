@@ -49,6 +49,8 @@ def hue_shifted(image, emptyPictureArray, hue):
             for c in range(image.shape[2]):
                 shifted = image[i,j,c] + hue
                 emptyPictureArray[i,j,c] = shifted
+                # Leave unclamped, provides warning that value surpasses 255,
+                # and image gets bluish tint
     return emptyPictureArray
 
 
