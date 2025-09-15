@@ -13,6 +13,7 @@ assert img_init_template is not None, "File could not be read"
 
 img_template = cv.imread('shapes_template.jpg',0)
 assert img_template is not None, "File could not be read"
+
 # II. Create functions for edge detection, resampling, and template matching
 
 # Sobel edge Detection
@@ -46,15 +47,17 @@ def template_match(image, template):
 
 # Resizing
 def resize(image, scale_factor: int, up_or_down: str):
-    
-
+    rows, columns, _channels = map(int, image.shape)
     if up_or_down == "up":
-
+        resized = cv.pyrUp(image, dstsize=(scale_factor * columns, scale_factor * rows))
+        cv.imwrite(os.path.join(OUTPUT_DIR, 'resize.png'), resized)
+        return resized
     elif up_or_down == "down":
+        resized = cv.pyrDown(image, dstsize=(scale_factor // columns, scale_factor // rows))
+        cv.imwrite(os.path.join(OUTPUT_DIR, 'resize.png'), resized)
+        return resized
+    return None
 
-
-    cv.imwrite(os.path.join(OUTPUT_DIR, 'resize.png'), resized)
-    return resized
 
 # Main
 def main():
@@ -62,6 +65,5 @@ def main():
     canny = canny_edge_detection(img, 50, 50)
     template_matching = template_match(img_init_template, img_template)
     resized = resize(img, 2, "up")
-
 if __name__ == "__main__":
     main()
