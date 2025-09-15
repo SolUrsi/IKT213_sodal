@@ -1,8 +1,11 @@
-import numpy as np
+import os
 import cv2 as cv
 
+OUTPUT_DIR = 'images'
+os.makedirs(OUTPUT_DIR, exist_ok=True)
+
 img = cv.imread('lambo.png')
-assert img is not None, "file could not be read"
+assert img is not None, "File could not be read"
 
 # II. Create functions for edge detection, resampling, and template matching
 
@@ -12,6 +15,7 @@ def sobel_edge_detection(image):
     gray = cv.cvtColor(image, cv.COLOR_BGR2GRAY)
     blur = cv.GaussianBlur(gray,(3,3),0)
     sobel = cv.Sobel(src=blur, ddepth=cv.CV_64F, dx=1, dy=1, ksize=1)
+    cv.imwrite(os.path.join(OUTPUT_DIR, 'sobel.png'), sobel)
     return sobel
 
 
@@ -29,10 +33,9 @@ def resize():
 
 # Main
 def main():
-    cv.imshow('Original', img)
+    sobel = sobel_edge_detection(img)
+    cv.imshow('Sobel', sobel)
     cv.waitKey(0)
-    cv.imshow('Sobel', sobel_edge_detection(img))
-    cv.waitKey(1)
 
 if __name__ == "__main__":
     main()
