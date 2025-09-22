@@ -65,5 +65,7 @@ def main():
     canny = canny_edge_detection(img, 50, 50)
     template_matching = template_match(img_init_template, img_template)
     resized = resize(img, 2, "up")
+    cv.imshow('Test', resized)
+    cv.waitKey(0)
 if __name__ == "__main__":
     main()
