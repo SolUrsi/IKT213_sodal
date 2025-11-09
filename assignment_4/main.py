@@ -25,7 +25,7 @@ def harris (reference_image_color):
     # Dilation for more visible corners
     img_harris = cv.dilate(img_harris, None)
     
-    # Mark corners on the original COLOR image (B, G, R)
+    # Marks corners on the original COLOR image (B, G, R)
     # Marks pixels above a threshold in Red [0, 0, 255]
     reference_image_color[img_harris > 0.01 * img_harris.max()] = [0, 0, 255]
     
@@ -34,7 +34,7 @@ def harris (reference_image_color):
 def sift (image_to_align, reference_image, max_features, good_match_precent):
     sift = cv.SIFT_create()
 
-    # Use grayscale global images for detection and computation
+    # Grayscale global images for detection and computation
     kp1, des1 = sift.detectAndCompute(gray2, None)
     kp2, des2 = sift.detectAndCompute(gray, None)
 
@@ -56,7 +56,7 @@ def sift (image_to_align, reference_image, max_features, good_match_precent):
         src_pts = np.float32([kp1[m.queryIdx].pt for m in good]).reshape(-1, 1, 2)
         dst_pts = np.float32([kp2[m.trainIdx].pt for m in good]).reshape(-1, 1, 2)
 
-        # Find the Homography matrix (M)
+        # Finding the Homography matrix (M)
         M, mask = cv.findHomography(src_pts, dst_pts, cv.RANSAC, 5.0)
         matchesMask = mask.ravel().tolist()
 
@@ -64,15 +64,15 @@ def sift (image_to_align, reference_image, max_features, good_match_precent):
         height, width, channels = reference_image.shape
         aligned_img = cv.warpPerspective(image_to_align, M, (width, height)) 
         
-        # Define the bounding box on the image to align and project it onto the reference image
+        # Defining the bounding box on the image to align and project it onto the reference image
         h_orig, w_orig, c_orig = image_to_align.shape
         pts = np.float32([[0, 0], [0, h_orig - 1], [w_orig - 1, h_orig - 1], [w_orig - 1, 0]]).reshape(-1, 1, 2)
         dst = cv.perspectiveTransform(pts, M)
 
-        # Draw the projected bounding box on the reference image (using BGR color format)
+        # Drawing the projected bounding box on the reference image (using BGR color format)
         reference_image = cv.polylines(reference_image, [np.int32(dst)], True, (0, 0, 255), 3, cv.LINE_AA)
 
-        # Draw the feature matches
+        # Drawing the feature matches
         draw_params = dict(matchColor=(0, 255, 0),  # Green matches
                            singlePointColor=None,
                            matchesMask=matchesMask,
